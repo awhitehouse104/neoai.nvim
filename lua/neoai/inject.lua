@@ -13,7 +13,7 @@ M.append_to_buffer = function(txt, line)
         vim.api.nvim_buf_set_lines(0, line, line, false, { txt })
     end
     if M.current_line == nil then
-        M.current_line = line + 2
+        M.current_line = line + 1
         add_lines(line, "")
         add_lines(line+1, "")
     else

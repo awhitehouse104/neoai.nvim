@@ -1,6 +1,20 @@
 local config = require("neoai.config")
 local M = {}
 
+--@param user_prompt string
+--@return string
+M.append_code_system_prompt = function(user_prompt)
+    local system_prompt = [[
+      You are a code generation assistant. Your task is to respond with only valid code and necessary comments.
+      Important: Do not use markdown formatting or code block delimiters (```).
+      Do not include any explanations or text outside of the actual code.
+      If you need to provide multiple code snippets, separate them with a single blank line.
+      Ensure all code is syntactically correct and properly formatted.
+      Begin your response immediately with the code, without any introduction or explanation.
+    ]]
+    return system_prompt .. "\n\nUser request: " .. user_prompt
+end
+
 ---@param text string
 ---@return string
 M.extract_code_snippets = function(text)

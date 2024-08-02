@@ -58,6 +58,7 @@ M.focus = function()
         return
     end
     vim.api.nvim_set_current_win(M.input_popup.winid)
+    vim.api.nvim_command('startinsert')
 end
 
 M.create_ui = function()

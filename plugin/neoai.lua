@@ -51,10 +51,10 @@ end, {
 })
 
 vim.api.nvim_create_user_command("NeoAIInjectCode", function(opts)
-	local extract_code_snippets = require("neoai.utils").extract_code_snippets
-	require("neoai").inject(opts.args, extract_code_snippets)
+    local enhanced_prompt = require("neoai.utils").append_code_system_prompt(opts.args)
+    require("neoai").inject(enhanced_prompt)
 end, {
-	nargs = "+",
+    nargs = "+",
 })
 
 vim.api.nvim_create_user_command("NeoAIInjectContext", function(opts)
@@ -65,11 +65,11 @@ end, {
 })
 
 vim.api.nvim_create_user_command("NeoAIInjectContextCode", function(opts)
-	local extract_code_snippets = require("neoai.utils").extract_code_snippets
-	require("neoai").context_inject(opts.args, extract_code_snippets, opts.line1, opts.line2)
+    local enhanced_prompt = require("neoai.utils").append_code_system_prompt(opts.args)
+    require("neoai").context_inject(enhanced_prompt, nil, opts.line1, opts.line2)
 end, {
-	range = "%",
-	nargs = "+",
+    range = "%",
+    nargs = "+",
 })
 
 vim.api.nvim_create_user_command("NeoAIShortcut", function (opts)

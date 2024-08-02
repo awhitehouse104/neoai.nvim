@@ -50,6 +50,7 @@ M.toggle = function(toggle, prompt)
         if prompt ~= nil then
             ui.send_prompt(prompt)
         end
+        vim.api.nvim_command('startinsert')
         return true
     else
         -- Close
@@ -112,15 +113,20 @@ M.inject = function(prompt, strip_function, start_line)
         return x
     end
 
-    local current_line = start_line or vim.api.nvim_win_get_cursor(0)[1]
     chat.send_prompt(
         prompt,
         function(txt, _)
             -- Get differences between text
             local txt1 = strip_function(chat.get_current_output())
             local txt2 = strip_function(table.concat({ chat.get_current_output(), txt }, ""))
-
-            inject.append_to_buffer(string.sub(txt2, #txt1 + 1), current_line)
+            
+            local new_content = string.sub(txt2, #txt1 + 1)
+            
+            if new_content ~= "" then
+                local insert_line = vim.api.nvim_win_get_cursor(0)[1]
+                
+                inject.append_to_buffer(new_content, insert_line)
+            end
         end,
         false,
         function(_)
